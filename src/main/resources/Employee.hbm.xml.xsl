@@ -8,7 +8,9 @@
         </id>
 
         <one-to-one name="employeeDetail" class="EmployeeDetail"></one-to-one>
-    <!--    <many-to-one name="department" class="by.academy.it.pojos.Department" fetch="select" column="F_DEPARTMENT_ID" /> -->
+
+        <many-to-one name="department" class="by.academy.it.pojos.Department" fetch="select" column="F_DEPARTMENT_ID" />
+
         <property name="firstName" type="string"/>
         <property name="lastName" type="string"/>
         <property name="cellphone" type="string"/>

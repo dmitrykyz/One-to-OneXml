@@ -56,18 +56,22 @@ public class Department implements Serializable {
         Department that = (Department) o;
 
         return new EqualsBuilder()
-                .append(departmentId, that.departmentId)
                 .append(departName, that.departName)
-                .append(employees, that.employees)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(departmentId)
                 .append(departName)
-                .append(employees)
                 .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentId=" + departmentId +
+                ", departName='" + departName + '\'' +
+                '}';
     }
 }

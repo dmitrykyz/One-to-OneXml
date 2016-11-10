@@ -86,8 +86,6 @@ public class Employee implements Serializable {
                 .append(firstName, employee.firstName)
                 .append(lastName, employee.lastName)
                 .append(cellphone, employee.cellphone)
-                .append(employeeDetail, employee.employeeDetail)
-                .append(department, employee.department)
                 .isEquals();
     }
 
@@ -97,8 +95,6 @@ public class Employee implements Serializable {
                 .append(firstName)
                 .append(lastName)
                 .append(cellphone)
-                .append(employeeDetail)
-                .append(department)
                 .toHashCode();
     }
 

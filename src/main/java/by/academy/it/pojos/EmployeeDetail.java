@@ -73,7 +73,6 @@ public class EmployeeDetail implements Serializable {
         this.employee = employee;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,7 +86,6 @@ public class EmployeeDetail implements Serializable {
                 .append(city, that.city)
                 .append(state, that.state)
                 .append(country, that.country)
-                .append(employee, that.employee)
                 .isEquals();
     }
 
@@ -98,7 +96,6 @@ public class EmployeeDetail implements Serializable {
                 .append(city)
                 .append(state)
                 .append(country)
-                .append(employee)
                 .toHashCode();
     }
 

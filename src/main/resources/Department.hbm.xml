@@ -9,7 +9,7 @@
 
         <property name="departName" type="string"/>
 
-        <set name="employees" table="T_EMPLOYEE_FOROONEMANY"
+        <set name="employees" table="T_EMPLOYEE"
         inverse="true" lazy="true" fetch="select">
 
             <key column="F_DEPARTMENT_ID" not-null="true"/>
