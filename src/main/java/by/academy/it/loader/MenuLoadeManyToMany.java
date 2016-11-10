@@ -3,10 +3,12 @@ package by.academy.it.loader;
 import by.academy.it.db.DepartmentDao;
 import by.academy.it.db.EmployeeDao;
 import by.academy.it.db.EmployeeDetailDAO;
+import by.academy.it.db.MeetingDao;
 import by.academy.it.db.exceptions.DaoException;
 import by.academy.it.pojos.Department;
 import by.academy.it.pojos.Employee;
 import by.academy.it.pojos.EmployeeDetail;
+import by.academy.it.pojos.Meeting;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
@@ -22,11 +24,13 @@ public class MenuLoadeManyToMany {
     private static EmployeeDao employeeDao = null;
     private static EmployeeDetailDAO employeeDetailDAO = null;
     private static DepartmentDao departmentDAO = null;
+    private static MeetingDao meetingDao = null;
 
     public static void menu() throws DaoException {
         Employee employee = null;
         EmployeeDetail employeeDetail = null;
         Department department  = null;
+        Meeting meeting = null;
         while (needMenu) {
             printMenu();
             Scanner scanner = new Scanner(System.in);
@@ -39,23 +43,65 @@ public class MenuLoadeManyToMany {
                     break;
                 case 2:
                     employee = findEmployee();
+                    System.out.println("-----------------------------");
                     System.out.println(employee.getEmployeeDetail());
+                    System.out.println("-----------------------------");
                     System.out.println(employee.getDepartment());
+                    System.out.println("-----------------------------");
+                    Set<Meeting> meetingsTemp = employee.getMeetings();
+                    for (Meeting meeting1: meetingsTemp) {
+                        System.out.println("Meeting" + meeting1);
+                        System.out.println("-----------------------------");
+                    }
                     break;
                 case 3:
                     employeeDetail = findEmployeeDetail();
+                    System.out.println("-----------------------------");
                     System.out.println(employeeDetail.getEmployee());
+                    System.out.println("-----------------------------");
                     System.out.println(employeeDetail.getEmployee().getDepartment());
+                    System.out.println("-----------------------------");
+                    Set<Meeting> meetingsTemp1 = employeeDetail.getEmployee().getMeetings();
+                    for (Meeting meeting1: meetingsTemp1) {
+                        System.out.println("Meeting" + meeting1);
+                        System.out.println("-----------------------------");
+                    }
                     break;
                 case 4:
                     department = findDepartment();
+                    System.out.println("-----------------------------");
                     Set<Employee> employeesTemp = department.getEmployees();
                     for (Employee employee1: employeesTemp) {
                         System.out.println("Employee" + employee1);
                         System.out.println("EmployeeDetail" + employee1.getEmployeeDetail());
+                        System.out.println("-----------------------------");
+                        Set<Meeting> meetingsTemp2 = employee1.getMeetings();
+                        for (Meeting meeting1: meetingsTemp2) {
+                            System.out.println("Meeting" + meeting1);
+                            System.out.println("-----------------------------");
+                        }
                     }
                     break;
                 case 5:
+                    meeting = findMeeting();
+                    System.out.println("-----------------------------");
+                    Set<Employee> employeesTempMeeting = meeting.getEmployees();
+                    for (Employee employee1: employeesTempMeeting) {
+                        System.out.println("Employee" + employee1);
+                        System.out.println("-----------------------------");
+                        System.out.println("EmployeeDetail" + employee1.getEmployeeDetail());
+                        System.out.println("-----------------------------");
+                        System.out.println("Department" + employee1.getDepartment());
+                        System.out.println("-----------------------------");
+                    }
+                    break;
+                case 6:
+                    Meeting meeting1 = createMeeting();
+                    Meeting meeting2 = createMeeting();
+                    Set<Meeting> meetings = new HashSet<Meeting>();
+                    meetings.add(meeting1);
+                    meetings.add(meeting2);
+
                     Department department1 = createDepartment();
                     EmployeeDetail employeeDetail1 = createEmployeeDetail(employeeDetail);
                     employee = createEmployee(employeeDetail1);
@@ -69,18 +115,20 @@ public class MenuLoadeManyToMany {
                     employees.add(employee);
                     department1.setEmployees(employees);
 
+                    employee.setMeetings(meetings);
+
                     employeeDetail1.setEmployee(employee);
 
                     getEmployeeDao().saveOrUpdate(employee);
                     getEmployeeDetailDAO().saveOrUpdate(employeeDetail1);
                     break;
-                case 6:
+                case 7:
                     //employee = loadEmployee();
                     break;
-                case 7:
+                case 8:
                     //flushSession();
                     break;
-                case 8:
+                case 9:
                     //refreshSession();
                     break;
                 default:
@@ -95,11 +143,12 @@ public class MenuLoadeManyToMany {
     private static void printMenu() {
         System.out.println(" Options:");
         System.out.println("        0. Exit");
-        System.out.println("        1. Delete Employee");
+        System.out.println("        1. Delete All by DepatrmentID");
         System.out.println("        2. Get All by Employee ID");
         System.out.println("        3. Get All by EmployeeDetail ID");
         System.out.println("        4. Get All by Department ID");
-        System.out.println("        5. Save or Update Department Employee Employee Detail");
+        System.out.println("        5. Get All by Meeting ID");
+        System.out.println("        6. Save or Update Meeting Department Employee Employee Detail");
       //  System.out.println("        5. Load Employee");
       //  System.out.println("        6. Flush Session");
       //  System.out.println("        6. Refresh Session");
@@ -156,6 +205,17 @@ public class MenuLoadeManyToMany {
         return department;
     }
 
+    private static Meeting createMeeting() {
+        System.out.println("Please enter Meeting description:");
+        System.out.print("Meeting subject - ");
+
+        Meeting meeting = new Meeting();
+        Scanner scanner = new Scanner(System.in);
+        String parameter = scanner.nextLine();
+        meeting.setSubject(parameter);
+        return meeting;
+    }
+
     public static Employee findEmployee() {
         System.out.println("Get by Id. Please enter Employee id:");
         System.out.print("Id - ");
@@ -210,6 +270,24 @@ public class MenuLoadeManyToMany {
         return department;
     }
 
+    public static Meeting findMeeting() {
+        System.out.println("Get by Id. Please enter Meeting id:");
+        System.out.print("Id - ");
+
+        Scanner scanner = new Scanner(System.in);
+        Meeting meeting = null;
+        Integer id = scanner.nextInt();
+        try {
+            meeting = getMeetingDao().get(id);
+        } catch (DaoException e) {
+            log.error(e, e);
+        } catch (NullPointerException e) {
+            log.error("Unable find Meeting:", e);
+        }
+        System.out.print(meeting);
+        return meeting;
+    }
+
     private static void delete() {
         System.out.println("Delete by Id. Please enter Department id:");
         System.out.print("Id - ");
@@ -259,5 +337,12 @@ public class MenuLoadeManyToMany {
             departmentDAO = new DepartmentDao();
         }
         return departmentDAO;
+    }
+
+    public static MeetingDao getMeetingDao() {
+        if (meetingDao == null) {
+            meetingDao = new MeetingDao();
+        }
+        return meetingDao;
     }
 }

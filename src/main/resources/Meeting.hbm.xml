@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.academy.it.pojos" auto-import="false" catalog="testdbmanytomany" default-access="property">
+    <class name="Meeting" table="T_MEETING" lazy="false">
+        <id name="meetingId" type="int">
+            <generator class="increment"/>
+        </id>
+
+        <property name="subject" type="string"/>
+
+        <set name="employees" table="T_EMPLOYEE_MEETING"
+             inverse="true" lazy="true" fetch="select">
+            <key column="F_MEETING_ID"/>
+            <many-to-many column="F_EMPLOYEE_ID" class="Employee"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

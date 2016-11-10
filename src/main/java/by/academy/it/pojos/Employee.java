@@ -4,6 +4,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Dmitry on 11/9/2016.
@@ -17,6 +19,7 @@ public class Employee implements Serializable {
     private String cellphone;
     private EmployeeDetail employeeDetail;
     private Department department;
+    private Set<Meeting> meetings = new HashSet<Meeting>();
 
     public Employee() {
     }
@@ -73,6 +76,13 @@ public class Employee implements Serializable {
         this.employeeDetail = employeeDetail;
     }
 
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 
     @Override
     public boolean equals(Object o) {
