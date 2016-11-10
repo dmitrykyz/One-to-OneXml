@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.academy.it.pojos" auto-import="false" catalog="testdbmanytomany" default-access="property">
+    <class name="by.academy.it.pojos.Department" table="T_DEPARTMENT" lazy="false">
+        <id name="departmentId" type="int">
+            <generator class="increment"/>
+        </id>
+
+        <property name="departName" type="string"/>
+
+        <set name="employees" table="T_EMPLOYEE_FOROONEMANY"
+        inverse="true" lazy="true" fetch="select">
+
+            <key column="F_DEPARTMENT_ID" not-null="true"/>
+            <one-to-many class="by.academy.it.pojos.Employee"/>
+
+        </set>
+
+    </class>
+</hibernate-mapping>

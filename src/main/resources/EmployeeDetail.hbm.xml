@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.academy.it.pojos" auto-import="false" catalog="testdbmanytomany">
+    <class name="EmployeeDetail" table="T_EMPLOYEE_DETAIL" lazy="false">
+        <id name="employeeId" type="int">
+            <generator class="foreign">
+               <param name="property">employee</param>
+            </generator>
+        </id>
+
+        <one-to-one name="employee" class="Employee" constrained="true"></one-to-one>
+        <!--    <many-to-one name="department" class="by.academy.it.pojos.Department" fetch="select" column="F_DEPARTMENT_ID" /> -->
+        <property name="street" type="string"/>
+        <property name="city" type="string"/>
+        <property name="state" type="string"/>
+        <property name="country" type="string"/>
+
+    </class>
+</hibernate-mapping>
