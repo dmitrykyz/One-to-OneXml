@@ -298,13 +298,14 @@ public class MenuLoadeManyToMany {
         Employee employee = null;
         EmployeeDetail employeeDetail = null;
         Integer id = scanner.nextInt();
+
         try {
             department = getDepartmentDao().get(id);
             employees = department.getEmployees();
-            for (Employee employee1: employees) {
+            for (Employee employee1 : employees) {
                 employee = getEmployeeDao().get(id);
                 employeeDetail = getEmployeeDetailDAO().get(id);
-                getEmployeeDetailDAO().delete(employeeDetail);
+                //getEmployeeDetailDAO().delete(employeeDetail);
                 getEmployeeDao().delete(employee);
             }
             getDepartmentDao().delete(department);
@@ -314,8 +315,9 @@ public class MenuLoadeManyToMany {
         } catch (NullPointerException e) {
             log.error("Unable find employee:", e);
         }
-        System.out.print("All Entity delete sucsecfully");
+        System.out.print("Employee and EmployeeDetail delete sucsecfully");
     }
+
 
 
     public static EmployeeDao getEmployeeDao() {
