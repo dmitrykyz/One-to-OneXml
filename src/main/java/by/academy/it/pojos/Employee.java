@@ -2,7 +2,9 @@ package by.academy.it.pojos;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,15 +12,32 @@ import java.util.Set;
 /**
  * Created by Dmitry on 11/9/2016.
  */
+@Entity
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column(name = "F_EMPLOYEE_ID")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(generator = "increment")
     private Integer employeeid;
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "lastName")
     private String lastName;
+    @Column(name = "cellphone")
     private String cellphone;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL )
     private EmployeeDetail employeeDetail;
+
+    @ManyToOne
+    @JoinColumn (name = "F_DEPARTMENT_ID")
     private Department department;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "T_EMPLOYEE_MEETING",
+               joinColumns = {@JoinColumn(name = "F_EMPLOYEE_ID")},
+                inverseJoinColumns = {@JoinColumn (name = "F_MEETING_ID")})
     private Set<Meeting> meetings = new HashSet<Meeting>();
 
     public Employee() {

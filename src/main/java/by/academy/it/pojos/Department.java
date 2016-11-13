@@ -2,18 +2,29 @@ package by.academy.it.pojos;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by Dmitry on 11/9/2016.
  */
+@Entity
 public class Department implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column(name = "F_DEPARTMENT_ID")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(generator = "increment")
     private Integer departmentId;
+
+    @Column
     private String departName;
+
+    @OneToMany(mappedBy = "department")
     private Set<Employee> employees;
 
     public Department() {

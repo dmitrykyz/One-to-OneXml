@@ -2,21 +2,43 @@ package by.academy.it.pojos;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by Dmitry on 11/4/2016.
  */
+@Entity
 public class EmployeeDetail implements Serializable {
     private static final long serialVersinUID = 3L;
 
+    @Id
+    @GenericGenerator(
+            name = "gen",
+            strategy = "foreign",
+            parameters = @Parameter(name = "property", value = "employee"))
+    @GeneratedValue(generator = "gen")
     private Integer employeeId;
+
+    @Column(name = "street")
     private String street;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "state")
     private String state;
+
+    @Column(name = "country")
     private String country;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private Employee employee;
+
 
     public EmployeeDetail() {
     }

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import java.util.Locale;
 
 import static by.academy.it.loader.MenuLoadeManyToMany.menu;
-import static by.academy.it.loader.MenuLoaderWorker.menuWorker;
 
 public class StartLoader {
     private static Logger log = Logger.getLogger(StartLoader.class);

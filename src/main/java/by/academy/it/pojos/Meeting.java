@@ -2,7 +2,9 @@ package by.academy.it.pojos;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,11 +12,20 @@ import java.util.Set;
 /**
  * Created by Dmitry on 11/11/2016.
  */
+@Entity
 public class Meeting implements Serializable {
     private static final long serialVersionUID = 6L;
 
+    @Id
+    @Column(name = "F_MEETING_ID")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(generator = "increment")
     private Integer meetingId;
+
+    @Column
     private String subject;
+
+    @ManyToMany(mappedBy = "meetings")
     private Set<Employee> employees = new HashSet<Employee>();
 
     public Meeting() {
