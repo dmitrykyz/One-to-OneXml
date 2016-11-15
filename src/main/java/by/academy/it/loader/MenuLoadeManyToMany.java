@@ -12,6 +12,7 @@ import by.academy.it.pojos.Meeting;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -123,13 +124,41 @@ public class MenuLoadeManyToMany {
                     getEmployeeDetailDAO().saveOrUpdate(employeeDetail1);
                     break;
                 case 7:
-                    //employee = loadEmployee();
+                    System.out.println("Please enter Employee first name for search:");
+                    System.out.print("First Name - ");
+                    Scanner scanner1 = new Scanner(System.in);
+                    String firstNameParam = scanner1.nextLine();
+                    List<Employee> employees1 = getEmployeeDao().loadListEmployeeByFirstName(firstNameParam);
+                    for (Employee e: employees1) {
+                        System.out.println(e);;
+                    }
                     break;
                 case 8:
-                    //flushSession();
+                    System.out.println("Please enter Meeting subject for search:");
+                    System.out.print("Subject like - ");
+                    Scanner scanner2 = new Scanner(System.in);
+                    String subjectParam = scanner2.nextLine();
+                    List<Meeting> meetings1 = getMeetingDao().loadListMeetingBySubject(subjectParam);
+                    for (Meeting m: meetings1) {
+                        System.out.println(m);;
+                    }
                     break;
                 case 9:
-                    //refreshSession();
+                    System.out.println("Please enter Employee detail city for delete:");
+                    System.out.print("Employee detail city - ");
+                    Scanner scanner3 = new Scanner(System.in);
+                    String cityParam = scanner3.nextLine();
+                    getEmployeeDetailDAO().deleteEmployeeDetailByCity(cityParam);
+                    break;
+                case 10:
+                    System.out.println("Please enter department name for search:");
+                    System.out.print("Department name - ");
+                    Scanner scanner4 = new Scanner(System.in);
+                    String departmentNameParam = scanner4.nextLine();
+                    List<Department> departments = getDepartmentDao().loadListDepartmentByDepartmentName(departmentNameParam);
+                    for (Department d: departments) {
+                        System.out.println(d);;
+                    }
                     break;
                 default:
                     needMenu = true;
@@ -149,6 +178,10 @@ public class MenuLoadeManyToMany {
         System.out.println("        4. Get All by Department ID");
         System.out.println("        5. Get All by Meeting ID");
         System.out.println("        6. Save or Update Meeting Department Employee Employee Detail");
+        System.out.println("        7. HQL get Employee by first name");
+        System.out.println("        8. HQL get Meeting by subject using like and Pagination");
+        System.out.println("        9. HQL delete Employee Detail by city");
+        System.out.println("       10. Criteria get Department by department name");
       //  System.out.println("        5. Load Employee");
       //  System.out.println("        6. Flush Session");
       //  System.out.println("        6. Refresh Session");
